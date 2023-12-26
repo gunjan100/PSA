@@ -1,0 +1,13 @@
+{
+  "client": [
+    {
+      "id": 1,
+      "name": "gunjan",
+      "password": "admin",
+      "username": "gunjan1",
+      "city": "noida",
+      "state": "",
+      "mobile": "9776347658736"
+    }
+  ]
+}
