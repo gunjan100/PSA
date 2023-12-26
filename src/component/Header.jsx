@@ -15,7 +15,7 @@ const Header = () => {
                    <img src="/images/psa-logo.png" className="site-logo img-fluid px-3" alt="" />
                   <div className='d-flex flex-column'>
                   <h1 className='name text-start'>PSA</h1>
-                  <h3 className='tagline'>Quality Certification Ltd.</h3>
+                  <h3 className='tagline'>Quality Certification Ltd......</h3>
                   </div>
                     
                     
