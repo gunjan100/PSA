@@ -1,18 +1,42 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 
 const Home = () => {
+
+const [services, setServices] = useState([])
+
+const getServiceData = async () => {
+  try {
+    let response = await fetch("http://localhost:5000/api/service");
+    let data = await response.json();
+    if (data.success) {
+      setServices(data.sdata); // Update state with the received data
+    } else {
+      console.error("Failed to fetch service data:", data.message);
+    }
+  } catch (error) {
+    console.error("Error fetching service data:", error);
+  }
+};
+
+ useEffect(() => {
+  getServiceData()
+  
+ }, [])
+ 
+
   return (
     <>
      <section><div id="carouselExample" className="carousel slide">
   <div className="carousel-inner">
+ 
     <div className="carousel-item active">
-      <img src="..." className="d-block w-100" alt="..."/>
+      <img src="https://source.unsplash.com/random/900×700/?food" className="d-block w-100" alt="..."/>
     </div>
     <div className="carousel-item">
-      <img src="..." className="d-block w-100" alt="..."/>
+      <img src="https://source.unsplash.com/random/900×700/?testing" className="d-block w-100" alt="..."/>
     </div>
     <div className="carousel-item">
-      <img src="..." className="d-block w-100" alt="..."/>
+      <img src="https://source.unsplash.com/random/900×700/?audit" className="d-block w-100" alt="..."/>
     </div>
   </div>
   <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -53,45 +77,22 @@ A company has to go through a set of simple target-oriented steps to finally get
   <h2 className='fw-bolder'>Services We Provide</h2>
   <p>Following is the list ISO consultancy services offered by us</p>
   <div className="row g-3">
-  <div className="col-md-3 mb-3 mb-sm-0">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">ISO 9001:2015</h5>
-        <p className="card-text">International organization for standardization is a Series of ISO 9001:2015 Quality Management System (QMS) to set up Quality based Management System. </p>
-        <a href="#" className="btn btn-primary">Read More</a>
+    
+  {services.map((service, index) => (
+            <div className="col-md-3 mb-3 mb-sm-0" key={index}>
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">{service.title}</h5>
+                  <p className="card-text">{service.desc}</p>
+                  <p className="card-text">{service.price}</p>
+                  {/* Add a button or link to read more */}
+                  <a href="#" className="btn btn-primary">Read More</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </div>
-  <div className="col-md-3">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">ISO 14001:2015</h5>
-        <p className="card-text">The International Standard ISO 14001 Sets up Requirements for Environment Management system. ISO 14001:2015 is a certificate that offers quality </p>
-        <a href="#" className="btn btn-primary">Read more</a>
-      </div>
-    </div>
-  </div>
-  <div className="col-md-3">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">OHSAS 18001:2007</h5>
-        <p className="card-text">OHSAS 18001:1999 certification covers safety and health related aspects. It is a management system that is defined to be the labor and health protection </p>
-        <a href="#" className="btn btn-primary">Read more</a>
-      </div>
-    </div>
-  </div>
-  <div className="col-md-3">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">ISO 22000:2005</h5>
-        <p className="card-text">International organization for standardization is a Series of ISO 22000:2005 Quality Management System (QMS) to set up Quality based  </p>
-        <a href="#" className="btn btn-primary">Read more</a>
-      </div>
-    </div>
-  </div>
-</div>
-  
-</div>
     </>
   )
 }

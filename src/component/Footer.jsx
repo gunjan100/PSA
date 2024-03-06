@@ -1,6 +1,13 @@
 import React from 'react'
 
+import { useAuth } from "../store/auth";
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
+  const {user} = useAuth()
+  // const isAdmin = user && user.isAdmin;
+  console.log(user.isAdmin)
+  if(!user.isAdmin)
   return (
     <>
       <section className='footer-sec py-3'>
@@ -55,6 +62,7 @@ const Footer = () => {
       </section>
     </>
   )
+ 
 }
 
 export default Footer

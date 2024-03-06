@@ -10,7 +10,9 @@ header{
 }
 * {
     line-height: 1.88;
+    
 }
+
 
 
 .site-logo {
@@ -57,17 +59,13 @@ header{
 
     color: #fff;
     font-weight: 800;
-    padding-left: 50px;
+    /* padding-left: 50px; */
     text-transform: uppercase;
+    
 }
 
-@media (min-width: 992px){
 
-.navbar-expand-lg .navbar-nav .nav-link {
-    padding-right: var(--bs-navbar-nav-link-padding-x);
-    padding-left: 40px;
-}
-}
+
 
 .footer-sec{
     background-color: #f5f5c6;
@@ -178,9 +176,27 @@ header{
     font-size: 1.2rem;
 }
 
+.dropdown-item2 {
+    padding: .50rem 2rem;
+}
 
 .dropdown-item {
     padding: .50rem 4rem;
+}
+
+.navbar-brand{
+    color: #fff; ;
+}
+.custome{
+    border-bottom:2px #7da87b solid;
+    
+    
+    
+}
+
+.navbar{
+    --bs-navbar-nav-link-padding-x: 1.0rem;
+    --bs-navbar-toggler-padding-y: 0.25rem;
 }
 
 .dropdown-menu {
@@ -232,4 +248,17 @@ header{
     letter-spacing: -2px;
     text-transform: uppercase;
     line-height: 1;
+}
+
+#dashboard .nav-link{
+    color: #000;
+}
+
+#dashboard .nav-item a{
+    color: #000;
+    text-decoration: none;
+    font-size: large;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 5px 20px;
 }

@@ -1,96 +1,97 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../store/auth';
+
+
 
 const LogIn = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const{ isLoggedIn, user, storeTokenLS, logOutUser , token, isLoading, userAutheniticate} = useAuth()
+  // const {user} = useAuth()
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-  
-    if (validate()) {
-      try {
-        const response = await fetch(`http://localhost:4000/client/${username}`);
-        const resp = await response.json();
-  
-        if (!resp.username || resp.username !== username) {
-          toast.error('Enter a valid username');
-        } else {
-          if (resp.password === password) {
-            toast.success('Login successful');
-            navigate('/');
-          } else {
-            toast.error('Invalid password. Please enter valid information');
-          }
-        }
-      } catch (error) {
-        toast.error(`Login failed due to ${error.message}`);
+  const logInAccount = async(e) => {
+      e.preventDefault();
+      let response = await fetch("http://localhost:5000/api/logIn",{
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ emaill:email, pass }),
+      });
+
+      let data = await response.json()
+      console.log("this data",data);
+      console.log("this from user data",isLoggedIn, "user data",user, storeTokenLS, logOutUser , token, isLoading, userAutheniticate);
+
+      if(!data.success){
+        toast.error("Enter the correct Details")
       }
-    }
+     
+      
+      else{
+        storeTokenLS(data.authT)                 
+        toast.success("Login Successfully...")
+        console.log(data.authT)    
+    
+        if (isLoggedIn && user.isAdmin) {
+          navigate('/admin');
+          console.log("inside admin ")
+        } else {
+          navigate('/');
+        }
+                
+      }
+ 
   };
-  
-  const validate = () => {
-    let result = true;
-
-    if (username === '' || username === null) {
-      result = false;
-      toast.warning('Please enter a username');
-    }
-
-    if (password === '' || password === null) {
-      result = false;
-      toast.warning('Please enter a password');
-    }
-
-    return result;
-  };
-
+ 
+ 
   return (
-    <div className='col-6 container my-5'>
-      <form onSubmit={handleLogin}>
-        <div className='row mb-3'>
-          <label htmlFor='inputEmail3' className='col-sm-2 col-form-label'>
-            Username
-          </label>
-          <div className='col-sm-10'>
+    <>
+      <div className="card col-6 container my-4 ">
+     
+        <div className="card-header">User Login</div>
+        <form onSubmit={logInAccount} className="row g-3 needs-validation">
+          <div className="col-md-4">
+            <label className="form-label">Email</label>
             <input
-              type='text'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className='form-control'
-              id='inputEmail3'
+              type="email" // Fixed typo here
+              className="form-control"
+              autoComplete="off"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
             />
           </div>
-        </div>
-        <div className='row mb-3'>
-          <label htmlFor='inputPassword3' className='col-sm-2 col-form-label'>
-            Password
-          </label>
-          <div className='col-sm-10'>
+          <div className="col-md-4">
+            <label className="form-label">Password</label>
             <input
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className='form-control'
-              id='inputPassword3'
+              type="password"
+              className="form-control"
+              autoComplete="off"
+              onChange={(e) => setPass(e.target.value)}
+              value={pass}
+              required
             />
           </div>
-        </div>
-        <div className='row'>
-          <div className='col text-center'>
-            <button type='submit' className='btn btn-primary align-content-center'>
-              Sign in
-            </button>
-            <button type='button' className='btn btn-primary align-content-center' onClick={() => navigate('/register')}>
-              New User
+          <div className="card-footer">
+            <button type="submit" className="btn btn-primary me-3  non">
+              LogIn
             </button>
           </div>
-        </div>
-      </form>
-    </div>
+          <div className="card-footer">
+            <span>Already have an account?</span>
+            <NavLink to="/signup">
+              <button className="btn btn-primary mx-3">SignUp</button>
+            </NavLink>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
